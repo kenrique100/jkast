@@ -15,9 +15,9 @@ const Home = () => {
             </h1>
 
        
-                <div className='flex min-h-screen flex-col items-center justify-between p-24 text-white-1'>
-                {/*{tasks?.map(({ _id, text }) => <div key={_id}>{text}</div>)} */}
-                </div>
+                {/* <div className='flex min-h-screen flex-col items-center justify-between p-24 text-white-1'>
+                {tasks?.map(({ _id, text }) => <div key={_id}>{text}</div>)}
+                </div> */}
  
             <div className="podcast_grid">
             {podcastData.map(({ id, title, description, imgURL }) => (
