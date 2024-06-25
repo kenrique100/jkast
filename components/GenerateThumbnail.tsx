@@ -11,6 +11,7 @@ import { useToast } from './ui/use-toast';
 import { useAction, useMutation } from 'convex/react';
 import { useUploadFiles } from '@xixixao/uploadstuff/react';
 import { api } from '@/convex/_generated/api';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -27,6 +28,14 @@ const GenerateThumbnail = ({ setImage, setImageStorageId, image, imagePrompt, se
 
 
   const handleImage = async (blob: Blob, fileName: string) => {
+    try {
+      const response = await handleGenerateThumbnail({ prompt: imagePrompt });
+      const blob = new Blob([response], { type: 'image/png' });
+      handleImage(blob, `thumbnail-${uuidv4()}`);
+    } catch (error) {
+      console.log(error)
+      toast({ title: 'Error generating thumbnail', variant: 'destructive'})
+    }
     setIsImageLoading(true);
     setImage('');
 
@@ -49,16 +58,7 @@ const GenerateThumbnail = ({ setImage, setImageStorageId, image, imagePrompt, se
       toast({ title: 'Error generating thumbnail', variant: 'destructive'})
     }
   }
-  const generateImage = async () => {
-    try {
-      const response = await handleGenerateThumbnail({ prompt: imagePrompt });
-      const blob = new Blob([response], { type: 'image/png' });
-      handleImage(blob, `thumbnail-${uuidv4()}`);
-    } catch (error) {
-      console.log(error)
-      toast({ title: 'Error generating thumbnail', variant: 'destructive'})
-    }
-  }
+  const generateImage = async () => {}
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
@@ -101,7 +101,7 @@ const GenerateThumbnail = ({ setImage, setImageStorageId, image, imagePrompt, se
         </Button>
 
     </div>
-    { isAiThumbnail ? (
+    {isAiThumbnail ? (
         <div className="flex flex-col gap-5">
           <div className="mt-5 flex flex-col gap-2.5">
             <Label className="text-16 font-bold text-white-1">
@@ -169,7 +169,3 @@ const GenerateThumbnail = ({ setImage, setImageStorageId, image, imagePrompt, se
 
 
 export default GenerateThumbnail
-
-function uuidv4() {
-  throw new Error('Function not implemented.');
-}

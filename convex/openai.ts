@@ -18,6 +18,7 @@ export const generateAudioAction = action({
           
         return buffer;
     }
+    
     });
 
     export const generateThumbnailAction = action({
@@ -42,3 +43,4 @@ export const generateAudioAction = action({
           return buffer;
         }
       })
+      
